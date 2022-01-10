@@ -2,10 +2,10 @@
 name: "Hello World"
 description: "Greet someone and record the time"
 inputs:
-  who-to-greet: # id of input
-    description: "Who to greet"
+  workflow: # id of input
+    description: "Workflow to run"
     required: true
-    default: "World"
+    default: "main.json"
 outputs:
   time: # id of output
     description: "The time we greeted you"
