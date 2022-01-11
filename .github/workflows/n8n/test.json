@@ -1,5 +1,4 @@
 {
-  "id": 1,
   "nodes": [
     {
       "parameters": {},
@@ -10,11 +9,20 @@
     },
     {
       "parameters": {
+        "fileName": "test.txt"
+      },
+      "name": "Write Binary File",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [860, 300]
+    },
+    {
+      "parameters": {
         "values": {
           "string": [
             {
-              "name": "key",
-              "value": "some data"
+              "name": "text",
+              "value": "here is text"
             }
           ]
         },
@@ -24,6 +32,53 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 1,
       "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "mode": "jsonToBinary",
+        "convertAllData": false,
+        "sourceKey": "text",
+        "options": {
+          "useRawData": true
+        }
+      },
+      "name": "Move Binary Data",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "typeVersion": 1,
+      "position": [660, 300]
+    },
+    {
+      "parameters": {
+        "repositoryPath": "./",
+        "options": {}
+      },
+      "name": "Git",
+      "type": "n8n-nodes-base.git",
+      "typeVersion": 1,
+      "position": [1080, 300]
+    },
+    {
+      "parameters": {
+        "operation": "add",
+        "repositoryPath": "./",
+        "pathsToAdd": "test.txt"
+      },
+      "name": "Git1",
+      "type": "n8n-nodes-base.git",
+      "typeVersion": 1,
+      "position": [1280, 300]
+    },
+    {
+      "parameters": {
+        "operation": "commit",
+        "repositoryPath": "./",
+        "message": "test",
+        "options": {}
+      },
+      "name": "Git2",
+      "type": "n8n-nodes-base.git",
+      "typeVersion": 1,
+      "position": [1440, 300]
     }
   ],
   "connections": {
@@ -32,6 +87,61 @@
         [
           {
             "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Binary File": {
+      "main": [
+        [
+          {
+            "node": "Git",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Binary Data": {
+      "main": [
+        [
+          {
+            "node": "Write Binary File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Git": {
+      "main": [
+        [
+          {
+            "node": "Git1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Git1": {
+      "main": [
+        [
+          {
+            "node": "Git2",
             "type": "main",
             "index": 0
           }
