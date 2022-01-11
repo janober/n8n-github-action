@@ -106,6 +106,17 @@
       "type": "n8n-nodes-base.git",
       "typeVersion": 1,
       "position": [1240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "repositoryPath": "./",
+        "options": {}
+      },
+      "name": "Git3",
+      "type": "n8n-nodes-base.git",
+      "typeVersion": 1,
+      "position": [2000, 300]
     }
   ],
   "connections": {
@@ -169,6 +180,17 @@
         [
           {
             "node": "Git2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Git2": {
+      "main": [
+        [
+          {
+            "node": "Git3",
             "type": "main",
             "index": 0
           }
