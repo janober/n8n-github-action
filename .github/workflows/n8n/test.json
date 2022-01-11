@@ -56,7 +56,7 @@
       "name": "Git",
       "type": "n8n-nodes-base.git",
       "typeVersion": 1,
-      "position": [1080, 300]
+      "position": [1440, 300]
     },
     {
       "parameters": {
@@ -67,7 +67,7 @@
       "name": "Git1",
       "type": "n8n-nodes-base.git",
       "typeVersion": 1,
-      "position": [1280, 300]
+      "position": [1640, 300]
     },
     {
       "parameters": {
@@ -79,7 +79,33 @@
       "name": "Git2",
       "type": "n8n-nodes-base.git",
       "typeVersion": 1,
-      "position": [1440, 300]
+      "position": [1800, 300]
+    },
+    {
+      "parameters": {
+        "operation": "addConfig",
+        "repositoryPath": "./",
+        "key": "user.email",
+        "value": "test@test.com",
+        "options": {}
+      },
+      "name": "Git Set Email",
+      "type": "n8n-nodes-base.git",
+      "typeVersion": 1,
+      "position": [1040, 300]
+    },
+    {
+      "parameters": {
+        "operation": "addConfig",
+        "repositoryPath": "./",
+        "key": "user.name",
+        "value": "Test User",
+        "options": {}
+      },
+      "name": "Git Set Name",
+      "type": "n8n-nodes-base.git",
+      "typeVersion": 1,
+      "position": [1240, 300]
     }
   ],
   "connections": {
@@ -98,7 +124,7 @@
       "main": [
         [
           {
-            "node": "Git",
+            "node": "Git Set Email",
             "type": "main",
             "index": 0
           }
@@ -143,6 +169,28 @@
         [
           {
             "node": "Git2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Git Set Email": {
+      "main": [
+        [
+          {
+            "node": "Git Set Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Git Set Name": {
+      "main": [
+        [
+          {
+            "node": "Git",
             "type": "main",
             "index": 0
           }
