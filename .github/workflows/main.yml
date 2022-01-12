@@ -14,6 +14,7 @@ jobs:
         id: hello
         with:
           workflow: "1"
+          encryption_key: ${{ secrets.N8N_ENCRYPTION_KEY }}
         env: # Or as an environment variable
           N8N_ENCRYPTION_KEY: ${{ secrets.N8N_ENCRYPTION_KEY }}
       # Use the output from the `hello` step

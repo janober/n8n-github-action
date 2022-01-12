@@ -1,6 +1,8 @@
 #!/bin/sh -l
 
 echo "Parameter: $1"
+echo "encryption_key: $2"
+
 time=$(date)
 echo "::set-output name=time::$time"
 npm run import
