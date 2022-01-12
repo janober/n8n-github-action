@@ -1,11 +1,11 @@
 # action.yml
-name: "Hello World"
-description: "Greet someone and record the time"
+name: "Run n8n workflow"
+description: "Run defined n8n workflow"
 inputs:
   workflow: # id of input
-    description: "Workflow to run"
+    description: "ID of the Workflow to run"
     required: true
-    default: "main.json"
+    default: "1"
 outputs:
   time: # id of output
     description: "The time we greeted you"

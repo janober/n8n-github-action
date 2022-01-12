@@ -1,0 +1,55 @@
+{
+  "id": 1,
+  "name": "Send Mattermost Message",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "channelId": "wwwdbjmcxbbfdmtab4mst9hy3o",
+        "message": "Test from GitHub",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "name": "Mattermost",
+      "type": "n8n-nodes-base.mattermost",
+      "typeVersion": 1,
+      "position": [
+        500,
+        300
+      ],
+      "credentials": {
+        "mattermostApi": {
+          "id": "1",
+          "name": "Mattermost Bot Account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Mattermost",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2022-01-12T09:47:01.525Z",
+  "updatedAt": "2022-01-12T09:50:13.039Z",
+  "settings": {},
+  "staticData": null
+}

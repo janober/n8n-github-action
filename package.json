@@ -1,0 +1,22 @@
+{
+  "name": "n8n-github-action",
+  "version": "1.0.0",
+  "description": "Run n8n in a GitHub action",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run import; source .env; npx n8n; npm run export",
+    "import": "source .env; n8n import:workflow --separate --input=${N8N_WORKFLOWS}; n8n import:credentials --separate --input=${N8N_CREDENTIALS}",
+    "export": "source .env; n8n export:workflow --backup --output=${N8N_WORKFLOWS}; n8n export:credentials --backup --output=${N8N_CREDENTIALS}"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janober/n8n-github-action.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/janober/n8n-github-action/issues"
+  },
+  "homepage": "https://github.com/janober/n8n-github-action#readme"
+}
