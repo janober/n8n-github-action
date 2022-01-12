@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "rm -rf $HOME/.n8n; npm run import; source .env_base; npx n8n; npm run export",
+    "n8n": "rm -rf $HOME/.n8n; npm run import; source .env_base; npx n8n; npm run export",
     "import": "source .env_base; n8n import:workflow --separate --input=${N8N_WORKFLOWS}; n8n import:credentials --separate --input=${N8N_CREDENTIALS}",
     "export": "source .env_base; n8n export:workflow --backup --output=${N8N_WORKFLOWS}; n8n export:credentials --backup --output=${N8N_CREDENTIALS}"
   },
