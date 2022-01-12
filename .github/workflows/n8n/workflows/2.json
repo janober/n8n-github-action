@@ -1,229 +1,395 @@
 {
-	"id": 2,
-	"name": "pr: Inform",
-	"active": false,
-	"nodes": [
-		{
-			"parameters": {},
-			"name": "Start",
-			"type": "n8n-nodes-base.start",
-			"typeVersion": 1,
-			"position": [240, 300]
-		},
-		{
-			"parameters": {
-				"fileName": "test.txt"
-			},
-			"name": "Write Binary File",
-			"type": "n8n-nodes-base.writeBinaryFile",
-			"typeVersion": 1,
-			"position": [900, 300]
-		},
-		{
-			"parameters": {
-				"values": {
-					"string": [
-						{
-							"name": "text",
-							"value": "here is text"
-						}
-					]
-				},
-				"options": {}
-			},
-			"name": "Set",
-			"type": "n8n-nodes-base.set",
-			"typeVersion": 1,
-			"position": [500, 300]
-		},
-		{
-			"parameters": {
-				"mode": "jsonToBinary",
-				"convertAllData": false,
-				"sourceKey": "text",
-				"options": {
-					"useRawData": true
-				}
-			},
-			"name": "Move Binary Data",
-			"type": "n8n-nodes-base.moveBinaryData",
-			"typeVersion": 1,
-			"position": [700, 300]
-		},
-		{
-			"parameters": {
-				"repositoryPath": "./",
-				"options": {}
-			},
-			"name": "Git",
-			"type": "n8n-nodes-base.git",
-			"typeVersion": 1,
-			"position": [1480, 300]
-		},
-		{
-			"parameters": {
-				"operation": "add",
-				"repositoryPath": "./",
-				"pathsToAdd": "test.txt"
-			},
-			"name": "Git1",
-			"type": "n8n-nodes-base.git",
-			"typeVersion": 1,
-			"position": [1680, 300]
-		},
-		{
-			"parameters": {
-				"operation": "commit",
-				"repositoryPath": "./",
-				"message": "test",
-				"options": {}
-			},
-			"name": "Git2",
-			"type": "n8n-nodes-base.git",
-			"typeVersion": 1,
-			"position": [1840, 300]
-		},
-		{
-			"parameters": {
-				"operation": "addConfig",
-				"repositoryPath": "./",
-				"key": "user.email",
-				"value": "test@test.com",
-				"options": {}
-			},
-			"name": "Git Set Email",
-			"type": "n8n-nodes-base.git",
-			"typeVersion": 1,
-			"position": [1080, 300]
-		},
-		{
-			"parameters": {
-				"operation": "addConfig",
-				"repositoryPath": "./",
-				"key": "user.name",
-				"value": "Test User",
-				"options": {}
-			},
-			"name": "Git Set Name",
-			"type": "n8n-nodes-base.git",
-			"typeVersion": 1,
-			"position": [1280, 300]
-		},
-		{
-			"parameters": {
-				"operation": "push",
-				"repositoryPath": "./",
-				"options": {}
-			},
-			"name": "Git3",
-			"type": "n8n-nodes-base.git",
-			"typeVersion": 1,
-			"position": [2040, 300]
-		}
-	],
-	"connections": {
-		"Write Binary File": {
-			"main": [
-				[
-					{
-						"node": "Git Set Email",
-						"type": "main",
-						"index": 0
-					}
-				]
-			]
-		},
-		"Set": {
-			"main": [
-				[
-					{
-						"node": "Move Binary Data",
-						"type": "main",
-						"index": 0
-					}
-				]
-			]
-		},
-		"Move Binary Data": {
-			"main": [
-				[
-					{
-						"node": "Write Binary File",
-						"type": "main",
-						"index": 0
-					}
-				]
-			]
-		},
-		"Git": {
-			"main": [
-				[
-					{
-						"node": "Git1",
-						"type": "main",
-						"index": 0
-					}
-				]
-			]
-		},
-		"Git1": {
-			"main": [
-				[
-					{
-						"node": "Git2",
-						"type": "main",
-						"index": 0
-					}
-				]
-			]
-		},
-		"Git2": {
-			"main": [
-				[
-					{
-						"node": "Git3",
-						"type": "main",
-						"index": 0
-					}
-				]
-			]
-		},
-		"Git Set Email": {
-			"main": [
-				[
-					{
-						"node": "Git Set Name",
-						"type": "main",
-						"index": 0
-					}
-				]
-			]
-		},
-		"Git Set Name": {
-			"main": [
-				[
-					{
-						"node": "Git",
-						"type": "main",
-						"index": 0
-					}
-				]
-			]
-		},
-		"Start": {
-			"main": [
-				[
-					{
-						"node": "Set",
-						"type": "main",
-						"index": 0
-					}
-				]
-			]
-		}
-	},
-	"createdAt": "2022-01-12T14:16:02.481Z",
-	"updatedAt": "2022-01-12T14:34:38.443Z",
-	"settings": {},
-	"staticData": null
+  "id": 2,
+  "name": "pr: Inform",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fileName": "={{$node[\"Read Binary File\"].parameter[\"filePath\"]}}"
+      },
+      "name": "Write Binary File",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "repositoryPath": "./",
+        "options": {}
+      },
+      "name": "Git",
+      "type": "n8n-nodes-base.git",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "add",
+        "repositoryPath": "./",
+        "pathsToAdd": "test.txt"
+      },
+      "name": "Git1",
+      "type": "n8n-nodes-base.git",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "commit",
+        "repositoryPath": "./",
+        "message": "test",
+        "options": {}
+      },
+      "name": "Git2",
+      "type": "n8n-nodes-base.git",
+      "typeVersion": 1,
+      "position": [
+        2320,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "addConfig",
+        "repositoryPath": "./",
+        "key": "user.email",
+        "value": "test@test.com",
+        "options": {}
+      },
+      "name": "Git Set Email",
+      "type": "n8n-nodes-base.git",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "addConfig",
+        "repositoryPath": "./",
+        "key": "user.name",
+        "value": "Test User",
+        "options": {}
+      },
+      "name": "Git Set Name",
+      "type": "n8n-nodes-base.git",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "repositoryPath": "./",
+        "options": {}
+      },
+      "name": "Git3",
+      "type": "n8n-nodes-base.git",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "filePath": "./PRs-opened.csv"
+      },
+      "name": "Read Binary File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "rawData": true
+        }
+      },
+      "name": "Spreadsheet File",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        920,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "date",
+              "value": "={{ new Date().toISOString() }}"
+            }
+          ],
+          "number": [
+            {
+              "name": "number",
+              "value": "={{$json[\"PR\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "New Entry",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        700,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toFile",
+        "fileFormat": "csv",
+        "options": {}
+      },
+      "name": "Spreadsheet File1",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "GITHUB_REF",
+              "value": "={{ $env.GITHUB_REF || \"refs/pull/2/merge\" }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Environment Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        240,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "PR",
+              "value": "={{$json[\"GITHUB_REF\"].split('/')[2]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Clean Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        480,
+        520
+      ]
+    }
+  ],
+  "connections": {
+    "Git": {
+      "main": [
+        [
+          {
+            "node": "Git1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Git1": {
+      "main": [
+        [
+          {
+            "node": "Git2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Git2": {
+      "main": [
+        [
+          {
+            "node": "Git3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Git Set Email": {
+      "main": [
+        [
+          {
+            "node": "Git Set Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Git Set Name": {
+      "main": [
+        [
+          {
+            "node": "Git",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Read Binary File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Binary File": {
+      "main": [
+        [
+          {
+            "node": "Spreadsheet File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Spreadsheet File": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New Entry": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Spreadsheet File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Spreadsheet File1": {
+      "main": [
+        [
+          {
+            "node": "Write Binary File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Environment Data": {
+      "main": [
+        [
+          {
+            "node": "Clean Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Data": {
+      "main": [
+        [
+          {
+            "node": "New Entry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Binary File": {
+      "main": [
+        [
+          {
+            "node": "Git Set Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2022-01-12T14:16:02.481Z",
+  "updatedAt": "2022-01-12T14:46:09.474Z",
+  "settings": {},
+  "staticData": null
 }
