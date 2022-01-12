@@ -1,0 +1,213 @@
+{
+  "id": 3,
+  "name": "pr: inform",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "headerAuth",
+        "endpoint": "https://api.linear.app/graphql",
+        "requestFormat": "json",
+        "query": "=mutation IssueCreate {\n  issueCreate(\n    input: {\n      title: \"PR: {{$json[\"title\"]}}\"\n      description: \"New PR to review: {{$json[\"html_url\"]}}\"\n      teamId: \"7a330c36-4b39-4bf1-922e-b4ceeb91850a\"\n    }\n  ) {\n    success\n    issue {\n      id\n      title\n    }\n  }\n}",
+        "responseFormat": "string",
+        "headerParametersUi": {
+          "parameter": []
+        }
+      },
+      "name": "GraphQL Create Issue",
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "3",
+          "name": "Linear"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "channelId": "wwwdbjmcxbbfdmtab4mst9hy3o",
+        "message": "=A new PR got opened and issue created on linear:\nLinear ID: {{$json[\"data\"][\"data\"][\"issueCreate\"][\"issue\"][\"id\"]}}\nLinear Issue Title: {{$json[\"data\"][\"data\"][\"issueCreate\"][\"issue\"][\"title\"]}}",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "name": "Mattermost",
+      "type": "n8n-nodes-base.mattermost",
+      "typeVersion": 1,
+      "position": [
+        1260,
+        300
+      ],
+      "credentials": {
+        "mattermostApi": {
+          "id": "1",
+          "name": "Mattermost Bot Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "owner": "janober",
+        "repository": "n8n-github-action",
+        "issueNumber": "={{$json[\"PR_number\"]}}"
+      },
+      "name": "GitHub",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        880,
+        300
+      ],
+      "credentials": {
+        "githubApi": {
+          "id": "2",
+          "name": "Github account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "GITHUB_HEAD_REF",
+              "value": "={{ $env.GITHUB_HEAD_REF || \"test\" }}"
+            },
+            {
+              "name": "GITHUB_REF",
+              "value": "={{ $env.GITHUB_REF || \"refs/pull/2/merge\" }}"
+            },
+            {
+              "name": "GITHUB_REPOSITORY_OWNER",
+              "value": "={{ $env.GITHUB_REPOSITORY_OWNER || \"janober\" }}"
+            },
+            {
+              "name": "GITHUB_REPOSITORY",
+              "value": "={{ $env.GITHUB_REPOSITORY || \"n8n\" }}"
+            }
+          ],
+          "number": []
+        },
+        "options": {}
+      },
+      "name": "Environment Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "Repository_name",
+              "value": "={{$json[\"GITHUB_REPOSITORY\"]}}"
+            },
+            {
+              "name": "Source_branch_name",
+              "value": "={{$json[\"GITHUB_HEAD_REF\"]}}"
+            },
+            {
+              "name": "Repository_owner",
+              "value": "={{$json[\"GITHUB_REPOSITORY_OWNER\"]}}"
+            }
+          ],
+          "number": [
+            {
+              "name": "PR_number",
+              "value": "={{$json[\"GITHUB_REF\"].split('/')[2]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Clean Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "GraphQL Create Issue": {
+      "main": [
+        [
+          {
+            "node": "Mattermost",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub": {
+      "main": [
+        [
+          {
+            "node": "GraphQL Create Issue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Environment Data": {
+      "main": [
+        [
+          {
+            "node": "Clean Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Data": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Environment Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2022-01-12T15:16:06.805Z",
+  "updatedAt": "2022-01-12T15:17:46.018Z",
+  "settings": {},
+  "staticData": null
+}
