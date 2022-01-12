@@ -6,9 +6,6 @@ inputs:
     description: "ID of the Workflow to run"
     required: true
     default: "1"
-outputs:
-  time: # id of output
-    description: "The time we greeted you"
 runs:
   using: "docker"
   image: "Dockerfile"
