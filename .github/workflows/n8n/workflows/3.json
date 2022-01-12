@@ -1,6 +1,6 @@
 {
   "id": 3,
-  "name": "pr: inform",
+  "name": "pr: inform new",
   "active": false,
   "nodes": [
     {
@@ -207,7 +207,7 @@
     }
   },
   "createdAt": "2022-01-12T15:16:06.805Z",
-  "updatedAt": "2022-01-12T15:17:46.018Z",
+  "updatedAt": "2022-01-12T16:48:06.089Z",
   "settings": {},
   "staticData": null
 }
