@@ -1,7 +1,7 @@
 #!/bin/sh -l
 
 echo "Parameter: $1"
-echo "encryption_key: $2"
+echo "encryption_key2: $2"
 
 time=$(date)
 echo "::set-output name=time::$time"
